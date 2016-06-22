@@ -8,22 +8,25 @@ import (
 	"strings"
 )
 
+var (
+	Conf *ConfigHelper
+	conflist []map[string]map[string]string
+)
 type ConfigHelper struct {
-	filepath string                         
-	conflist []map[string]map[string]string 
+	Filepath string                         
 }
 
-func SetConfig(filepath string) *ConfigHelper {
-	c := new(ConfigHelper)
-	c.filepath = filepath
-
-	return c
+func init() {
+	Conf = new(ConfigHelper)
+	Conf.Filepath = "./conf/app.conf"
+	Conf.ReadList()
 }
 
 func (c *ConfigHelper) GetValue(section, name string) string {
-	c.ReadList()
-	conf := c.ReadList()
-	for _, v := range conf {
+	// if conflist == nil{
+	// 	c.ReadList()	
+	// }
+	for _, v := range conflist {
 		for key, value := range v {
 			if key == section {
 				return value[name]
@@ -34,8 +37,7 @@ func (c *ConfigHelper) GetValue(section, name string) string {
 }
 
 func (c *ConfigHelper) ReadList() []map[string]map[string]string {
-
-	file, err := os.Open(c.filepath)
+	file, err := os.Open(c.Filepath)
 	if err != nil {
 		CheckErr(err)
 	}
@@ -65,13 +67,13 @@ func (c *ConfigHelper) ReadList() []map[string]map[string]string {
 			value := strings.TrimSpace(line[i+1 : len(line)])
 			data[section][strings.TrimSpace(line[0:i])] = value
 			if c.uniquappend(section) == true {
-				c.conflist = append(c.conflist, data)
+				conflist = append(conflist, data)
 			}
 		}
 
 	}
 
-	return c.conflist
+	return conflist
 }
 
 func CheckErr(err error) string {
@@ -83,7 +85,7 @@ func CheckErr(err error) string {
 
 
 func (c *ConfigHelper) uniquappend(conf string) bool {
-	for _, v := range c.conflist {
+	for _, v := range conflist {
 		for k, _ := range v {
 			if k == conf {
 				return false
@@ -91,4 +93,8 @@ func (c *ConfigHelper) uniquappend(conf string) bool {
 		}
 	}
 	return true
+}
+
+func AppConfig() *ConfigHelper {
+    return Conf
 }

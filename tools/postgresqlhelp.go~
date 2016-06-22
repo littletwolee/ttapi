@@ -1,0 +1,39 @@
+package tools
+
+import (
+	"gopkg.in/pg.v4"
+//	"log"
+//	"reflect"
+)
+
+var (
+	PH *PostgreSQLHelp
+)
+
+type PostgreSQLHelp struct{}
+
+func init() {
+	PH = new(PostgreSQLHelp)
+}
+
+func connect() *pg.DB {
+	return pg.Connect(&pg.Options{
+		Addr : Conf.GetValue("postgresql", "postgresqlhost"),
+		User: Conf.GetValue("postgresql", "postgresqluser"),
+		Password : Conf.GetValue("postgresql", "postgresqlpwd"),
+		Database : Conf.GetValue("postgresql", "postgresqldbname"),
+	})
+}
+
+
+
+func (p *PostgreSQLHelp) CreateObject(object interface{}) bool {
+	db := connect()
+	defer db.Close()
+	err := db.Create(&object)
+	if err != nil {
+		return false 
+	}
+	return true
+}
+
