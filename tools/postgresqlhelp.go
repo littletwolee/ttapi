@@ -3,7 +3,7 @@ package tools
 import (
 	"gopkg.in/pg.v4"
 	"log"
-	"reflect"
+//	"reflect"
 //	"ttapi/models"
 )
 
@@ -55,14 +55,7 @@ func (p *PostgreSQLHelp) CreateObject(object interface{}) bool {
 // 	return true
 // }
 
-func (p *PostgreSQLHelp) SelectObjectByFilter(filter string, object interface{}) interface{} {
+func (p *PostgreSQLHelp) SelectObjectByFilter() *pg.DB {
 	db := connect()
-	defer db.Close()
-	v := reflect.ValueOf(object)
-	err := db.Model(&v).Where("name = ?", "IT").Select()
-	if err != nil {
-		log.Println(err)
-		return nil
-	}
-	return object
+	return db
 }
