@@ -1,10 +1,10 @@
 # ttapi
 
 #summary
-This's a RESTful api by golang programming language.
+This's a RESTful api by golang programming language.  
 
 #usage
-1.Please make sure you have a working golang environment & set up GOPATH is completed
+1.Please make sure you have a working golang environment & set up GOPATH is completed  
 2.cd in your GOPATH directory & get drives.
     like this, go get github.com/gorilla/mux & go get gopkg.in/pg.v4
 3.Put the code GOPATH/src directory
