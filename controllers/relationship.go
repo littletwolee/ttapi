@@ -45,7 +45,8 @@ func (rs *RelationshipController) CreateRelationship(w http.ResponseWriter, r *h
 	}
 	relationship.Other_user_id = other_user_id
 	if relationship.State == "liked" || relationship.State == "unliked" {
-		flag := modules.RelationshipModule.CreateRelationship(relationship)
+		tools.CHBool <- modules.RelationshipModule.CreateRelationship(relationship)
+		flag := <- tools.CHBool
 		result.StatusCode = http.StatusOK
 		result.Data = map[string]string{"state":strconv.FormatBool(flag)}
 		tools.RH.GetResult(w, result)
@@ -72,7 +73,8 @@ func (u *RelationshipController) GetRelationshipById(w http.ResponseWriter, r *h
 		result.Errmsg = "parameter user_id error"
 		tools.RH.GetResult(w, result)
 	}
-	list := modules.RelationshipModule.GetRelationshipById(user_id)
+	tools.CHRelationship <- modules.RelationshipModule.GetRelationshipById(user_id)
+	list := <- tools.CHRelationship
 	result.StatusCode = http.StatusOK
 	result.Data = list
 	tools.RH.GetResult(w, result)

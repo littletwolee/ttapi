@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 //	"fmt"
 	"net/http"
-//	"log"
+	"log"
 	"io/ioutil"
 	"strconv"
 //	"github.com/gorilla/mux"
@@ -29,8 +29,10 @@ func (u *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	r.Body.Close()
 	var user *models.User
 	json.Unmarshal(body, &user)
-	flag := modules.UserModule.CreateUser(user)
+	tools.CHBool <- modules.UserModule.CreateUser(user)
+	flag := <- tools.CHBool
 	result.StatusCode = http.StatusOK
+	log.Println(3)
 	result.Data = map[string]string{"state":strconv.FormatBool(flag)}
 	tools.RH.GetResult(w, result)
 }
@@ -43,7 +45,8 @@ func (u *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 // @router /users[GET]
 func (u *UserController) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	result := &models.Result{}
-	list := modules.UserModule.GetAllUsers()
+	tools.CHUser <- modules.UserModule.GetAllUsers()
+	list := <- tools.CHUser
 	result.StatusCode = http.StatusOK
 	result.Data = list
 	tools.RH.GetResult(w, result)

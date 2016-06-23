@@ -41,6 +41,7 @@ func (p *PostgreSQLHelp) CreateObject(object interface{}) bool {
 		log.Println(err)
 		return false 
 	}
+	log.Println(2)
 	return true
 }
 

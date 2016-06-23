@@ -8,7 +8,7 @@ import(
 
 var UserModule *User
 
-type User struct {}  
+type User struct{}  
 
 func init(){
 	UserModule = new(User)
@@ -16,6 +16,7 @@ func init(){
 
 func (u *User)CreateUser(user *models.User) bool {
 	user.Type = "user"
+	log.Println(1)
 	return tools.PH.CreateObject(user)
 }
 func (u *User)GetAllUsers() []models.User {
