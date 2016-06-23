@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 //	"fmt"
 	"net/http"
-	"log"
+//	"log"
 	"io/ioutil"
 	"strconv"
 //	"github.com/gorilla/mux"
@@ -32,7 +32,6 @@ func (u *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	tools.CHBool <- modules.UserModule.CreateUser(user)
 	flag := <- tools.CHBool
 	result.StatusCode = http.StatusOK
-	log.Println(3)
 	result.Data = map[string]string{"state":strconv.FormatBool(flag)}
 	tools.RH.GetResult(w, result)
 }
