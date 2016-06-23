@@ -20,7 +20,7 @@ func init() {
 	user := "/users"
 	r.HandleFunc(user, userController.CreateUser).
 		Methods("POST").Headers("Content-Type", "application/json")
-	r.HandleFunc(user, userController.SelectUserByName).
+	r.HandleFunc(user, userController.GetAllUsers).
 		Methods("GET")
 	relationshipController := new(controllers.RelationshipController)
 	relationship := "/relationships"

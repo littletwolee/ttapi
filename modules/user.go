@@ -18,7 +18,7 @@ func (u *User)CreateUser(user *models.User) bool {
 	user.Type = "user"
 	return tools.PH.CreateObject(user)
 }
-func (u *User)SelectUserByName(name string) []models.User {
+func (u *User)GetAllUsers() []models.User {
 	var users []models.User
 	db := tools.PH.SelectObjectByFilter()
 	defer db.Close()
