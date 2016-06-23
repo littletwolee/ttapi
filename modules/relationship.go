@@ -26,14 +26,14 @@ func (r *Relationship)CreateRelationship(relationship *models.Relationship) bool
 	}
 	return true
 }
-// func (r *Relationship)SelecRelationship(name string) []models.Relationship {
-// 	var users []models.User
-// 	db := tools.PH.SelectObjectByFilter()
-// 	defer db.Close()
-// 	err := db.Model(&models.User{}).Select(&users)
-// 	if err != nil {
-// 		log.Println(err)
-// 	}
-// 	return users
-// }
+func (r *Relationship)GetRelationshipById(user_id int) []models.Relationship {
+	var relationships []models.Relationship
+	db := tools.PH.SelectObjectByFilter()
+	defer db.Close()
+	err := db.Model(&models.Relationship{}).Where("user_id = ?", user_id).Select(&relationships)
+	if err != nil {
+		log.Println(err)
+	}
+	return relationships
+}
 

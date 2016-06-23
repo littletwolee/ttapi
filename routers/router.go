@@ -17,16 +17,16 @@ import (
 func init() {
 	r := mux.NewRouter()
 	userController := new(controllers.UserController)
-	user := "/user"
+	user := "/users"
 	r.HandleFunc(user, userController.CreateUser).
 		Methods("POST").Headers("Content-Type", "application/json")
 	r.HandleFunc(user, userController.SelectUserByName).
 		Methods("GET")
 	relationshipController := new(controllers.RelationshipController)
-	relationship := "/relationship"
+	relationship := "/relationships"
 	r.HandleFunc(user + "/{user_id}" + relationship + "/{other_user_id}", relationshipController.CreateRelationship).
 		Methods("PUT").Headers("Content-Type", "application/json")
-	// r.HandleFunc(user, userController.SelectUserByName).
-	// 	Methods("GET")
+	r.HandleFunc(user + "/{user_id}" + relationship, relationshipController.GetRelationshipById).
+		Methods("GET")
 	http.Handle("/", r)
 }

@@ -49,6 +49,20 @@ func (rs *RelationshipController) CreateRelationship(w http.ResponseWriter, r *h
 	fmt.Fprintf(w, string(""))  
 }
 
+func (u *RelationshipController) GetRelationshipById(w http.ResponseWriter, r *http.Request) {
+	query := mux.Vars(r)
+	user_id, err := strconv.Atoi(query["user_id"])
+	if err != nil {
+		
+	}
+	result := modules.RelationshipModule.GetRelationshipById(user_id)
+	resp, err := json.MarshalIndent(result, "" , "")
+	if err != nil {  
+		panic(err)  
+	}  
+	fmt.Fprintf(w, string(resp))  
+}
+
 // func (r *RelationshipController) SelectUserByName(w http.ResponseWriter, r *http.Request) {
 // 	query := mux.Vars(r)
 // 	result := modules.UserModule.SelectUserByName(query["name"])
