@@ -36,12 +36,17 @@ func (rs *RelationshipController) CreateRelationship(w http.ResponseWriter, r *h
 	if err != nil {
 	}
 	relationship.Other_user_id = other_user_id
-	result := modules.RelationshipModule.CreateRelationship(relationship)
-	resp, err := json.MarshalIndent(map[string]string{"msg":strconv.FormatBool(result)}, "" , "")
-	if err != nil {  
-		panic(err)  
-	}  
-	fmt.Fprintf(w, string(resp))  
+	if relationship.State == "liked" || relationship.State == "unliked" {
+		result := modules.RelationshipModule.CreateRelationship(relationship)
+		resp, err := json.MarshalIndent(map[string]string{"msg":strconv.FormatBool(result)}, "" , "")
+		if err != nil {  
+			panic(err)  
+		}
+		fmt.Fprintf(w, string(resp))
+	} else {
+
+	}
+	fmt.Fprintf(w, string(""))  
 }
 
 // func (r *RelationshipController) SelectUserByName(w http.ResponseWriter, r *http.Request) {

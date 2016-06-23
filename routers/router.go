@@ -24,7 +24,7 @@ func init() {
 		Methods("GET")
 	relationshipController := new(controllers.RelationshipController)
 	relationship := "/relationship"
-	r.HandleFunc(user + "/{user_id}" + relationship + "/{other_user_id}", RelationshipController.CreateRelationship).
+	r.HandleFunc(user + "/{user_id}" + relationship + "/{other_user_id}", relationshipController.CreateRelationship).
 		Methods("PUT").Headers("Content-Type", "application/json")
 	// r.HandleFunc(user, userController.SelectUserByName).
 	// 	Methods("GET")

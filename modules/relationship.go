@@ -3,7 +3,8 @@ package modules
 import(
 	"ttapi/models"
 	"ttapi/tools"
-//	"log"
+	"strconv"
+	"log"
 )
 
 var RelationshipModule *Relationship
@@ -15,8 +16,15 @@ func init(){
 }
 
 func (r *Relationship)CreateRelationship(relationship *models.Relationship) bool {
-	relationship.Type = "relationship"
-	return tools.PH.CreateObject(relationship)
+	db := tools.PH.SelectObjectByFilter()
+	defer db.Close()
+	_, err := db.Exec("SELECT relationship_" + relationship.State + "(" + strconv.Itoa(relationship.User_id) +
+		"," + strconv.Itoa(relationship.Other_user_id) + ");")
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+	return true
 }
 // func (r *Relationship)SelecRelationship(name string) []models.Relationship {
 // 	var users []models.User
