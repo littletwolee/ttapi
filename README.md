@@ -20,7 +20,7 @@ This's a RESTful api by golang programming language.
     postgresqluser = //user  
     postgresqlpwd = //pwd  
 6.Use information_schema.sql build DB in your PostgreSQL server  
-7.Now, you can start ttapi in your server by "nohup ./ttapi &"  
+7.Now, you can start ttapi on your server by "nohup ./ttapi &"  
 
 #Router
 1.get all users  
