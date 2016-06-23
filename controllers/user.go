@@ -17,11 +17,11 @@ import (
 type UserController struct {}
 
 // @Title CreateUser
-// @Description find user by objectid
-// @Param	objectId	"the objectid you want to get"
-// @Success 200 {user} models.User
-// @Failure 403 :objectId is empty
-// @router /:objectId [get]
+// @Description create user
+// @Param	name
+// @Success 200 {result} models.Result
+// @Failure 500 
+// @router /users[POST]
 func (u *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	result := &models.Result{}
 	r.ParseForm()
@@ -35,6 +35,12 @@ func (u *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	tools.RH.GetResult(w, result)
 }
 
+
+// @Title GetAllUsers
+// @Description get all users
+// @Success 200 {result} models.Result
+// @Failure 500 
+// @router /users[GET]
 func (u *UserController) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	result := &models.Result{}
 	list := modules.UserModule.GetAllUsers()

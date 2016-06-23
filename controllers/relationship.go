@@ -16,12 +16,12 @@ import (
 // Operations about object
 type RelationshipController struct {}
 
-// @Title CreateUser
-// @Description find user by objectid
-// @Param	objectId	"the objectid you want to get"
-// @Success 200 {user} models.User
-// @Failure 403 :objectId is empty
-// @router /:objectId [get]
+// @Title CreateRelationship
+// @Description create relationship from user_id to other_user_id
+// @Param	user_id	other_user_id state
+// @Success 200 {result} models.Result
+// @Failure 500 
+// @router /users/{user_id}/relationships/{other_user_id}[PUT]
 func (rs *RelationshipController) CreateRelationship(w http.ResponseWriter, r *http.Request) {
 	result := &models.Result{}
 	r.ParseForm()
@@ -56,6 +56,13 @@ func (rs *RelationshipController) CreateRelationship(w http.ResponseWriter, r *h
 	}
 }
 
+
+// @Title GetRelationshipById
+// @Description get relationships by user_id
+// @Param	user_id
+// @Success 200 {result} models.Result
+// @Failure 500 
+// @router /users/{user_id}/relationships[GET]
 func (u *RelationshipController) GetRelationshipById(w http.ResponseWriter, r *http.Request) {
 	result := &models.Result{}
 	query := mux.Vars(r)
@@ -71,12 +78,3 @@ func (u *RelationshipController) GetRelationshipById(w http.ResponseWriter, r *h
 	tools.RH.GetResult(w, result)
 }
 
-// func (r *RelationshipController) SelectUserByName(w http.ResponseWriter, r *http.Request) {
-// 	query := mux.Vars(r)
-// 	result := modules.UserModule.SelectUserByName(query["name"])
-// 	resp, err := json.MarshalIndent(result, "" , "")
-// 	if err != nil {  
-// 		panic(err)  
-// 	}  
-// 	fmt.Fprintf(w, string(resp))  
-// }
